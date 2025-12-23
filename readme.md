@@ -52,6 +52,40 @@ Before you begin, make sure you have the following installed:
    ```
    - docker build -t flasapp .
    ```
-8. 
+8. run the conatiner using:
+   ```
+   - docker run -d -p 5000:5000 flaskapp:latest
+   ```
+9. open 5000 port on instance SG, and try access it in browser
+10. we have to run the mysql container as well.
+    ```
+    - docker run -d -p 3306:3306 mysql:5.7
+    ```
+11. run the containers  include env variables and create the network.
+    ```
+    - docker network create two-tier
+    ```
+12. run the mysql and flaskapp containers in the same network.
+    ```
+    - docker run -d -p 3306:3306 --network=two-tier -e MYSQL_DATABASE=myDb -e MYSQL_USER=admin -e MYSQL_PASSWL_USER=admin -e                        MYSQL_PASSWORD=admin -e MYSQL_ROOT_PASSWORD=admin --name=mysql mysql:5.7
+    - docker run -d -p 5000:5000 --network=two-tier -e MYSQL_HOST=mysql -e MYSQL_USER=admin -e MYSQL_PASSWORD=admin -e MYSQL_DB=myDb --             name=flaskapp flaskapp:latest
+    ```
+13. TRY TO ACCESS the application on browser.
+14.  Go inside the mysql container
+    
+    ```
+     - docker exec -it (mysql-container-id)
+     -  mysql -u root -p\
+     -  enter password
+     -  show databases;
+     -  use myDb;
+     -  CREATE TABLE message(id INT AUTO_INCREMENT PRIMARY KEY, message TEXT);
+     -  select * from message;
+     ```
+15. access the applicatio n on browser on port 5000.
+       
+     <img width="1283" height="838" alt="image" src="https://github.com/user-attachments/assets/c823300e-3ce3-4f7c-ad37-ecd3133ce375" />
+
+    
 
    
